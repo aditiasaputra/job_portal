@@ -23,7 +23,7 @@ Auth::routes();
 
 Route::group(['middleware' => ['auth']], function () {
     //? General
-    Route::get('/dashboard', 'HomeController@index')->name('dashboard');
+    Route::get('/dashboard', 'HomeController@index')->middleware('role:admin')->name('dashboard');
 
     //? Admin
     Route::group(['middleware' => ['role:admin']], function () {
@@ -42,6 +42,7 @@ Route::group(['middleware' => ['auth']], function () {
     });
 
     //? Employer
+    Route::get('/dashboard/employer', function(){return 'hello from employer page';})->middleware('role:employer')->name('employer');
     Route::group(['middleware' => ['role:employer']], function () {
         Route::get('/employers', function () {
             return 'employer';
@@ -49,6 +50,9 @@ Route::group(['middleware' => ['auth']], function () {
     });
 
     //? Job Seeker
+    Route::get('/dashboard/jobseeker', function () {
+        return 'hello from job seeker page';
+    })->middleware('role:jobseeker')->name('jobseeker');
     Route::group(['middleware' => ['role:jobseeker']], function () {
         Route::get('/jobseekers', function () {
             return 'jobseeker';
